@@ -1,5 +1,5 @@
-"use client"
-import type { NextPage } from 'next';
+"use client";
+import type { NextPage } from "next";
 import React, { useState, useEffect } from "react";
 import Header from "@/components/core/Header";
 import Hero from "@/components/core/Hero";
@@ -12,9 +12,9 @@ import Ico4 from "@/../public/ico4.png";
 import Shape3 from "@/../public/Shape3.png";
 import Products from "@/components/api/Products";
 import Loading from "@/components/ui/loading";
+import BackgroundBeams from "@/components/ui/background-beams";
 
 const Home: NextPage = () => {
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,8 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="w-full h-screen overflow-hidden background pb-8 relative">
+    <div className="w-full h-screen overflow-hidden pb-8 relative">
+        <BackgroundBeams />
       <style jsx global>{`
         @keyframes float {
           0% {
@@ -54,7 +55,7 @@ const Home: NextPage = () => {
           animation-delay: 3s;
         }
       `}</style>
-      
+
       <Image
         src={Shape3 as StaticImageData}
         alt="Background"
@@ -63,11 +64,11 @@ const Home: NextPage = () => {
         priority
       />
       <Header />
-      <div className='w-full h-[800px] z-[1] absolute overflow-y-scroll'>
-      <Hero />
-      <div className="max-w-[1200] m-auto">
-        <Products />
-      </div>
+      <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll">
+        <Hero />
+        <div className="max-w-[1200] m-auto">
+          <Products />
+        </div>
       </div>
       <Image
         src={Ico as StaticImageData}
@@ -97,6 +98,7 @@ const Home: NextPage = () => {
         width={100}
         priority={false}
       />
+
     </div>
   );
 };
