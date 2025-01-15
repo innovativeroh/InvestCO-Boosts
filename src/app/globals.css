@@ -87,3 +87,8 @@ body {
   radial-gradient(at 91% 8%, hsla(317,77%,72%,1) 0px, transparent 50%),
   radial-gradient(at 53% 7%, hsla(262,100%,50%,1) 0px, transparent 50%);
 }
+.outfit-font {
+  font-family: "Outfit", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}

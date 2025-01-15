@@ -5,7 +5,7 @@ import { BsDiscord } from "react-icons/bs";
 import { LuArrowLeftRight, LuMenu } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import Image from 'next/image';
-import Icon from "@/../public/Icon.svg";
+import Icon from "@/../public/Logo.png";
 interface MenuItem {
   text: string;
   shortcut: string;
@@ -65,8 +65,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="m-auto max-w-[1280px] p-4 md:p-8">
-        <div className="flex flex-wrap justify-between gap-4 md:gap-[100px]">
+    <br />
+      <header className="m-auto max-w-[1280px] p-4 md:p-4 mt-4">
+        <div className="flex flex-wrap justify-between gap-4 md:gap-[60px]">
           {/* Logo */}
           <div className="p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex items-center bg-opacity-80">
             <Image src={Icon} alt='Icon' width={40} height={40} />
@@ -87,7 +88,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex-[8] justify-center items-center bg-opacity-80 outfit-font font-light text-white gap-10">
+          <nav className="hidden md:flex p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex-[9] justify-center items-center bg-opacity-80 outfit-font font-light text-white gap-10">
             {menuItems.map((item) => (
               <NavLink key={item.text} item={item} />
             ))}

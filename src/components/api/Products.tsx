@@ -1,4 +1,5 @@
 "use client"
+import { BorderBeam } from "@/components/ui/border-beam";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -92,6 +93,7 @@ const Products: React.FC = () => {
               >
                 Purchase
               </button>
+              <BorderBeam />
             </div>
           );
         })}

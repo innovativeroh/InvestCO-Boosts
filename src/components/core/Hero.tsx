@@ -4,11 +4,11 @@ import React from "react";
 import { FaCheck } from "react-icons/fa6";
 const Hero = () => {
   return (
-    <div className="max-w-[1280px] m-auto p-8 mt-10">
-      <h1 className="text-white text-7xl leading-[80px] outfit-font font-light">
+    <div className="max-w-[1280px] m-auto p-8">
+      <h1 className="text-white text-7xl leading-[80px] outfit-font tracking-[-1.7px] font-[500]">
         Welcome To Genuine Boosts <br /> #1 <span className="font-medium">Discord</span> Supplier
       </h1>
-      <div className="mt-20 flex flex-wrap gap-8">
+      <div className="mt-10 flex flex-wrap gap-8">
         <span className="flex flex-wrap text-white items-center gap-2">
           <FaCheck className="text-blue-400" />{" "}
           <p className="outfit-font">5000+ Products Sold</p>

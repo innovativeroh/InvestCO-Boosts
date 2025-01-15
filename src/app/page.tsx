@@ -1,14 +1,12 @@
 import Header from "@/components/core/Header";
 import Hero from "@/components/core/Hero";
 import Image from "next/image";
-import Shape1 from "@/../public/Shape1.png";
-import Shape2 from "@/../public/Shape2.png";
 import Shape3 from "@/../public/Shape3.png";
 import Products from "@/components/api/Products";
 
 export default function Home() {
   return (
-    <div className="w-full background pb-8 relative">
+    <div className="w-full h-screen background pb-8 relative">
             <Image
         src={Shape3}
         alt="Background"
@@ -21,7 +19,7 @@ export default function Home() {
         <Products />
       </div>
 
-      <Image
+      {/* <Image
         src={Shape1}
         alt="Background"
         className="absolute top-[100px] blur-md opacity-80 right-0"
@@ -32,7 +30,7 @@ export default function Home() {
         alt="Background"
         className="absolute bottom-0 opacity-80 left-0 blur-md"
         width={300}
-      />
+      /> */}
 
     </div>
   );
