@@ -92,3 +92,25 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 }
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+  margin: 4px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6699ff 0%, #ffccff 100%);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6699ff 0%, #ffccff 100%);
+  box-shadow: 0 0 10px rgba(80, 25, 230, 0.5);
+}

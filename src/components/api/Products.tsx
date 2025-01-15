@@ -51,6 +51,7 @@ const Products: React.FC = () => {
 
   return (
     <>
+    <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 max-w-[1200px] m-auto">
         {products.map((product) => {
           const imageUrl = product.image_attachment
@@ -97,6 +98,7 @@ const Products: React.FC = () => {
             </div>
           );
         })}
+      </div>
       </div>
     </>
   );
