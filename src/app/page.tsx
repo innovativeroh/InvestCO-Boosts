@@ -1,5 +1,6 @@
 "use client"
 import type { NextPage } from 'next';
+import React, { useState, useEffect } from "react";
 import Header from "@/components/core/Header";
 import Hero from "@/components/core/Hero";
 import Image from "next/image";
@@ -10,8 +11,22 @@ import Ico3 from "@/../public/ico3.png";
 import Ico4 from "@/../public/ico4.png";
 import Shape3 from "@/../public/Shape3.png";
 import Products from "@/components/api/Products";
+import Loading from "@/components/ui/loading";
 
 const Home: NextPage = () => {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    const timer = setTimeout(() => setLoading(false), 2000); // 2 seconds delay
+    return () => clearTimeout(timer); // Cleanup timeout
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="w-full h-screen overflow-hidden background pb-8 relative">
       <style jsx global>{`
