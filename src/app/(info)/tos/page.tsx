@@ -11,6 +11,31 @@ import { StaticImageData } from "next/image";
 const Page = () => {
   return (
     <div className="w-full min-h-screen text-white overflow-hidden overflow-x-hidden">
+      <style jsx global>{`
+            @keyframes float {
+              0% {
+                transform: translateY(0px);
+                }
+                50% {
+                  transform: translateY(-20px);
+                  }
+                  100% {
+                    transform: translateY(0px);
+                    }
+            }
+            .float-animation {
+              animation: float 6s ease-in-out infinite;
+              }
+              .float-animation-delay-1 {
+                animation-delay: 1s;
+                }
+                .float-animation-delay-2 {
+                  animation-delay: 2s;
+                  }
+                  .float-animation-delay-3 {
+                    animation-delay: 3s;
+                    }
+                    `}</style>
       <BackgroundBeams />
       <Header />
       <div className="w-full h-[800px] z-[1] absolute overflow-y-hidden overflow-x-hidden">

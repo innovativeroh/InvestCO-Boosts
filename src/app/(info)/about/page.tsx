@@ -21,6 +21,31 @@ const AboutPage = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden pb-8 relative text-white outfit-font">
+      <style jsx global>{`
+            @keyframes float {
+              0% {
+                transform: translateY(0px);
+                }
+                50% {
+                  transform: translateY(-20px);
+                  }
+                  100% {
+                    transform: translateY(0px);
+                    }
+            }
+            .float-animation {
+              animation: float 6s ease-in-out infinite;
+              }
+              .float-animation-delay-1 {
+                animation-delay: 1s;
+                }
+                .float-animation-delay-2 {
+                  animation-delay: 2s;
+                  }
+                  .float-animation-delay-3 {
+                    animation-delay: 3s;
+                    }
+                    `}</style>
       <Header />
       <BackgroundStars />
       <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll overflow-x-hidden">
