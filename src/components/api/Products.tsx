@@ -8,7 +8,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 type ImageAttachment = {
   name: string;
   cloudflare_image_id: string;
-}
+};
 
 type Product = {
   id: number;
@@ -18,15 +18,16 @@ type Product = {
   price: number;
   stock: number;
   image_attachment?: ImageAttachment;
-}
+};
 
 type CartItem = Product & {
   quantity: number;
-}
+};
 
 declare global {
   interface Window {
-    Sellix: unknown;
+    Sellix: any;
+    initializeSellixEmbed: () => void;
   }
 }
 
@@ -37,19 +38,18 @@ const Products: NextPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<{
-          data: {
-            products: Product[];
-          };
-        }>("https://dev.sellix.io/v1/products", {
-          headers: {
-            Authorization: "Bearer TzuvcHcNViFZQbK9x06NYP51j8s9ONV5SKjAS1L1UXLVnv7upnQs2z8jQuKsfTOl",
-          },
-        });
+        const response = await axios.get<{ data: { products: Product[] } }>(
+          "https://dev.sellix.io/v1/products",
+          {
+            headers: {
+              Authorization: "Bearer TzuvcHcNViFZQbK9x06NYP51j8s9ONV5SKjAS1L1UXLVnv7upnQs2z8jQuKsfTOl",
+            },
+          }
+        );
 
         const productsWithStock = response.data.data.products.map((product) => ({
           ...product,
-          stock: Math.floor(Math.random() * 10), // Example: Setting random stock numbers
+          stock: Math.floor(Math.random() * 10),
         }));
 
         setProducts(productsWithStock);
@@ -60,10 +60,14 @@ const Products: NextPage = () => {
 
     fetchProducts();
 
-    // Add Sellix script
     const script = document.createElement("script");
     script.src = "https://cdn.sellix.io/embed.js";
     script.async = true;
+    script.onload = () => {
+      if (window.initializeSellixEmbed) {
+        window.initializeSellixEmbed();
+      }
+    };
     document.body.appendChild(script);
 
     return () => {
@@ -86,29 +90,45 @@ const Products: NextPage = () => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
+
+    if (window.initializeSellixEmbed) {
+      window.initializeSellixEmbed();
+    }
   };
 
   const handleRemoveFromCart = (productId: number): void => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+
+    if (window.initializeSellixEmbed) {
+      window.initializeSellixEmbed();
+    }
   };
 
   const getCartUniqids = (): string => {
-    let uniqids: string[] = [];
-    cart.forEach((item) => {
-      // Repeat the uniqid based on quantity
-      const repeatedUniqids = Array(item.quantity).fill(item.uniqid);
-      uniqids = [...uniqids, ...repeatedUniqids];
-    });
-    return uniqids.join(',');
+    return cart
+      .flatMap((item) => Array(item.quantity).fill(item.uniqid))
+      .filter(Boolean) 
+      .join(",");
   };
 
   const getTotalItems = (): number => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
+  const PaymenthHandler = () => {
+    const ids = getCartUniqids(); // Get the unique cart IDs
+    const totalpayment = `${ids}`; // Convert to string
+    console.log("TOTAL PAYMENT " + totalpayment);
+  
+    const sellixCart = document.querySelector('button[data-sellix-cart]')?.getAttribute('data-sellix-cart');
+    console.log("Sellix Cart:", sellixCart);
+  
+  };
+
+  console.log("Cart UniqIDs:", getCartUniqids());
+
   return (
     <div>
-      {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 max-w-[1200px] m-auto">
         {products.map((product) => (
           <div
@@ -122,17 +142,15 @@ const Products: NextPage = () => {
                 width={300}
                 height={150}
                 className="object-cover w-full h-48 rounded-t-lg"
-                onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                onError={(e) => {
                   e.currentTarget.src = "/api/placeholder/400/320";
-                  e.currentTarget.onerror = null;
                 }}
               />
             )}
             <div className="text-left p-4">
               <h2 className="text-xl font-bold outfit-font">{product.title}</h2>
-              <p className="text-sm block mt-1">
-                Starting at
-                <span className="text-white pl-1 outfit-font">${product.price}</span>
+              <p className="text-sm mt-1">
+                Starting at <span className="text-white pl-1 outfit-font">${product.price}</span>
               </p>
               <p className="text-sm text-gray-400">
                 {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
@@ -141,15 +159,12 @@ const Products: NextPage = () => {
             {product.stock > 0 ? (
               <button
                 onClick={() => handleAddToCart(product)}
-                className="transition hover:text-white bg-gradient-to-r from-fuchsia-300 to-violet-500 text-white m-4 rounded-xl py-2 outfit-font font-semibold hover:bg-blue-950"
+                className="bg-gradient-to-r from-fuchsia-300 to-violet-500 text-white m-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
               >
                 Add to Cart
               </button>
             ) : (
-              <button
-                disabled
-                className="bg-gray-600 text-white m-4 rounded-xl py-2 outfit-font font-semibold cursor-not-allowed"
-              >
+              <button disabled className="bg-gray-600 text-white m-4 rounded-xl py-2 cursor-not-allowed">
                 Sold Out
               </button>
             )}
@@ -158,37 +173,42 @@ const Products: NextPage = () => {
         ))}
       </div>
 
-      {/* Cart Section */}
       <div className="mt-10 max-w-[1200px] m-auto text-white">
         <h2 className="text-2xl font-bold">Cart ({getTotalItems()} items)</h2>
         {cart.length > 0 ? (
           <>
             <ul className="mt-4">
               {cart.map((item) => (
-                <li key={item.id} className="flex justify-between items-center py-2 border-b">
+                <li key={item.id} className="flex justify-between py-2 border-b">
                   <span>{item.title}</span>
                   <span>${item.price * item.quantity}</span>
-                  <span>Quantity: {item.quantity}</span>
-                  <button
-                    onClick={() => handleRemoveFromCart(item.id)}
-                    className="text-red-600 mr-2"
-                  >
+                  <button onClick={() => handleRemoveFromCart(item.id)} className="text-red-600">
                     Remove
                   </button>
                 </li>
               ))}
             </ul>
 
-            {/* Cart Purchase Button */}
-            <div className="mt-6">
-              <button
-                data-sellix-cart={getCartUniqids()}
-                type="submit"
-                className="bg-green-500 text-white rounded-xl py-2 px-6 font-semibold transition hover:bg-green-600"
-              >
-                Purchase ({getTotalItems()} items)
-              </button>
-            </div>
+            <button
+  onClick={PaymenthHandler}
+  type="submit"
+  className="bg-green-500 text-white rounded-xl py-2 px-6 font-semibold hover:bg-green-600 mt-6"
+  data-sellix-cart={getCartUniqids()}
+>
+  Purchase 
+</button>
+
+
+{/* test part */}
+{/* <p>{getCartUniqids()}</p>
+<button
+  data-sellix-cart="66a0de6c1e028,66a1cbf42d1df,66a1cc51755a8"
+  type="submit"
+>
+  Purchase Test
+</button> */}
+{/* test part */}
+
           </>
         ) : (
           <p className="mt-2">Your cart is empty.</p>
