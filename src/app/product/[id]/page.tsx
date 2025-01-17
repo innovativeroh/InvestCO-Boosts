@@ -3,13 +3,16 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import { IoCartOutline } from "react-icons/io5";
+// import Link from "next/link";
+// import { IoCartOutline } from "react-icons/io5";
+
 import Header from "@/components/core/Header";
 import BackgroundBeams from "@/components/ui/background-beams";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { BiCartAlt } from "react-icons/bi";
+import Loading from "@/app/loading/page";
 
 interface ImageAttachment {
   cloudflare_image_id: string;
@@ -29,15 +32,15 @@ interface Product {
   updated_at: number;
 }
 
-interface CartItem extends Product {
-  quantity: number;
-}
+// interface CartItem extends Product {
+//   quantity: number;
+// }
 
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  // const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -71,32 +74,32 @@ const ProductDetails = () => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       try {
-        setCart(JSON.parse(savedCart));
+        // setCart(JSON.parse(savedCart));
       } catch (err) {
         console.error("Error parsing cart data:", err);
       }
     }
   }, []);
 
-  const handleAddToCart = (product: Product): void => {
-    try {
-      const updatedCart = (() => {
-        const existingProduct = cart.find((item) => item.id === product.id);
-        if (existingProduct) {
-          return cart.map((item) =>
-            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-          );
-        }
-        return [...cart, { ...product, quantity: 1 }];
-      })();
+  // const handleAddToCart = (product: Product): void => {
+  //   try {
+  //     const updatedCart = (() => {
+  //       const existingProduct = cart.find((item) => item.id === product.id);
+  //       if (existingProduct) {
+  //         return cart.map((item) =>
+  //           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+  //         );
+  //       }
+  //       return [...cart, { ...product, quantity: 1 }];
+  //     })();
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } catch (err) {
-      console.error("Error updating cart:", err);
-      setError("Failed to add item to cart");
-    }
-  };
+  //     setCart(updatedCart);
+  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //   } catch (err) {
+  //     console.error("Error updating cart:", err);
+  //     setError("Failed to add item to cart");
+  //   }
+  // };
 
   const formatDate = (timestamp: number): string => {
     return new Date(timestamp * 1000).toLocaleDateString("en-US", {
@@ -121,9 +124,7 @@ const ProductDetails = () => {
 
   if (isLoading || !product) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-500"></div>
-      </div>
+      <Loading />
     );
   }
 
@@ -132,15 +133,9 @@ const ProductDetails = () => {
       <Header />
       <BackgroundBeams />
 
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container max-w-[1200px] mx-auto px-4 py-8 relative z-10">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Product Details</h1>
-          <Link href="/cart" className="group">
-            <div className="flex items-center gap-2 text-white group-hover:text-purple-400 transition-colors">
-              <IoCartOutline size={28} />
-              <span className="font-medium">View Cart ({cart.length})</span>
-            </div>
-          </Link>
+          <h1 className="text-3xl font-bold text-white">Product</h1>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -201,11 +196,12 @@ const ProductDetails = () => {
                 </div>
               </div>
               <button
-                  onClick={() => handleAddToCart(product)}
-                  className="w-full bg-gradient-to-r mt-10 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-opacity"
-                >
-                  Add to Cart
-                </button>
+                data-sellix-product={product.uniqid}
+                type="submit"
+                className="bg-gradient-to-r flex flex-wrap gap-2 items-center justify-center from-fuchsia-300 w-full to-violet-500 text-white mt-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
+              >
+                Purchase <BiCartAlt size={28} />
+              </button>
             </CardContent>
             </div>
           </Card>
