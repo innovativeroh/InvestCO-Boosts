@@ -128,7 +128,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen">
       <Header />
       <BackgroundBeams />
 
@@ -144,7 +144,7 @@ const ProductDetails = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="bg-gray-900/60 border-gray-800">
+          <Card className="bg-zinc-950/80 border-zinc-800">
             <CardHeader>
               <CardTitle className="text-2xl text-white">{product.title}</CardTitle>
               <CardDescription className="text-gray-400">{product.description}</CardDescription>
@@ -154,7 +154,7 @@ const ProductDetails = () => {
                 {product.image_attachment && (
                   <div className="relative aspect-video">
                     <Image
-                      src={`https://imagedelivery.net/${product.image_attachment.cloudflare_image_id}/public`}
+                      src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product.image_attachment.cloudflare_image_id}/public`}
                       alt={product.title}
                       className="w-full h-full rounded-lg object-cover"
                       width={400}
@@ -172,17 +172,12 @@ const ProductDetails = () => {
                     Stock: {product.stock === -1 ? "∞" : product.stock}
                   </Badge>
                 </div>
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-opacity"
-                >
-                  Add to Cart
-                </button>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-900/60 border-gray-800">
+          <Card className="bg-transparent relative border-transparent">
+            <div className="bg-gray-950/40 border-zinc-800 border-[1px] rounded-lg">
             <CardHeader>
               <CardTitle className="text-xl text-white">Additional Details</CardTitle>
             </CardHeader>
@@ -205,8 +200,16 @@ const ProductDetails = () => {
                   <span className="text-purple-400">{formatDate(product.updated_at)}</span>
                 </div>
               </div>
+              <button
+                  onClick={() => handleAddToCart(product)}
+                  className="w-full bg-gradient-to-r mt-10 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                >
+                  Add to Cart
+                </button>
             </CardContent>
+            </div>
           </Card>
+          
         </div>
       </main>
     </div>
