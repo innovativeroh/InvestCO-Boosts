@@ -13,9 +13,9 @@ const Page = () => {
     <div className="w-full min-h-screen text-white overflow-y-scroll overflow-x-hidden">
       <BackgroundBeams />
       <Header />
-      <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll overflow-x-hidden">
-      <div className="max-w-[1200px] mx-auto bg-black outfit-font bg-opacity-50 border-zinc-900 border-[1px] rounded-lg overflow-hidden">
-        <div className="container mx-auto px-8 py-8">
+      <div className="w-full h-[800px] z-[1] overflow-hidden">
+      <div className="max-w-[1200px] mx-auto bg-black mb-10 outfit-font bg-opacity-50 border-zinc-900 border-[1px] rounded-lg overflow-hidden">
+        <div className="container mx-auto px-8 py-8 h-[700px] overflow-scroll">
           <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
 
           <TermsSection
