@@ -16,7 +16,7 @@ const menuItems: MenuItem[] = [
   { text: "Features", shortcut: "F", href: "#features" },
   { text: "Services", shortcut: "S", href: "#services" },
   { text: "Pricing", shortcut: "P", href: "#pricing" },
-  { text: "About Us", shortcut: "A", href: "#about" },
+  { text: "About Us", shortcut: "A", href: "/about" },
 ];
 
 const Header: React.FC = () => {
@@ -69,12 +69,12 @@ const Header: React.FC = () => {
       <header className="m-auto max-w-[1280px] p-4 md:p-4 mt-4">
         <div className="flex flex-wrap justify-between gap-4 md:gap-[60px]">
           {/* Logo */}
-          <div className="p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex items-center bg-opacity-20 blur-50">
+          <Link href="/" className="p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex items-center bg-opacity-20 blur-50">
             <Image src={Icon} alt='Icon' width={40} height={40} />
             <span className="font-thin text-white outfit-font text-xl px-2">
             Dukaan<span className="text-xs pl-1">©</span>
             </span>
-          </div>
+          </Link>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden p-4 bg-zinc-950 flex justify-center items-center rounded-2xl border-[1px] border-zinc-900 bg-opacity-20 blur-50">
