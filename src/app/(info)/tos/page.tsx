@@ -1,3 +1,4 @@
+"use client"
 import Header from "@/components/core/Header";
 import BackgroundBeams from "@/components/ui/background-beams";
 import React from "react";

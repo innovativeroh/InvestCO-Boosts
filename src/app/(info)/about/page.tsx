@@ -1,5 +1,4 @@
-'use client'
-
+"use client"
 import Header from "@/components/core/Header";
 import BackgroundStars from "@/components/ui/background-beams";
 import { motion } from "framer-motion";
