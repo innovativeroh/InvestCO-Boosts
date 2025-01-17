@@ -18,7 +18,7 @@ const AboutPage = () => {
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden pb-8 relative text-white">
+    <div className="w-full h-screen overflow-hidden pb-8 relative text-white outfit-font">
       <Header />
       <BackgroundStars />
       <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll overflow-x-hidden">
