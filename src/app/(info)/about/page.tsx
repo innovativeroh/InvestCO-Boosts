@@ -69,7 +69,7 @@ const page = () => {
                 meet your needs.
               </p>
               <p className="text-lg mt-4 font-semibold">
-                Let’s elevate your Discord experience – the Dukaan way!
+                Let&quot;s elevate your Discord experience the Dukaan way!
               </p>
             </section>
 
