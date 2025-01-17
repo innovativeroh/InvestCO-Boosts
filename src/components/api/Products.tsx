@@ -119,44 +119,49 @@ const Products: NextPage = () => {
         </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 max-w-[1200px] m-auto">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="relative flex flex-col text-white bg-black w-full overflow-hidden rounded-lg shadow-md"
-          >
-            {product.image_attachment && (
-              <Image
-                src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product.image_attachment.cloudflare_image_id}/public`}
-                alt={product.title}
-                width={300}
-                height={150}
-                className="object-cover w-full h-48 rounded-t-lg"
-                onError={(e) => {
-                  e.currentTarget.src = "/api/placeholder/400/320";
-                }}
-              />
-            )}
-            <div className="text-left p-4">
-              <h2 className="text-xl font-bold outfit-font">{product.title}</h2>
-              <p className="text-sm mt-1">
-                Starting at <span className="text-white pl-1 outfit-font">${product.price}</span>
-              </p>
-              <p className="text-sm text-gray-400">
-                {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
-              </p>
-            </div>
-            {product.stock > 0 ? (
-              <button
-                onClick={() => handleAddToCart(product)}
-                className="bg-gradient-to-r from-fuchsia-300 to-violet-500 text-white m-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
+          <div key={product.id}>
+            <div
+              className="relative flex flex-col text-white bg-black w-full overflow-hidden rounded-lg shadow-md"
+            >
+              {product.image_attachment && (
+                <Image
+                  src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product.image_attachment.cloudflare_image_id}/public`}
+                  alt={product.title}
+                  width={300}
+                  height={150}
+                  className="object-cover w-full h-48 rounded-t-lg"
+                  onError={(e) => {
+                    e.currentTarget.src = "/api/placeholder/400/320";
+                  }}
+                />
+              )}
+              <Link 
+              href={`/product/${product.uniqid}`}
+              className="text-left p-4"
+              passHref
               >
-                Add to Cart
-              </button>
-            ) : (
-              <button disabled className="bg-gray-600 text-white m-4 rounded-xl py-2 cursor-not-allowed">
-                Sold Out
-              </button>
-            )}
-            <BorderBeam />
+                <h2 className="text-xl font-bold outfit-font">{product.title}</h2>
+                <p className="text-sm mt-1">
+                  Starting at <span className="text-white pl-1 outfit-font">${product.price}</span>
+                </p>
+                <p className="text-sm text-gray-400">
+                  {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
+                </p>
+              </Link>
+              {product.stock > 0 ? (
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="bg-gradient-to-r from-fuchsia-300 to-violet-500 text-white m-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <button disabled className="bg-gray-600 text-white m-4 rounded-xl py-2 cursor-not-allowed">
+                  Sold Out
+                </button>
+              )}
+              <BorderBeam />
+            </div>
           </div>
         ))}
       </div>
