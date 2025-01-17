@@ -1,6 +1,7 @@
-import type { NextPage } from 'next';
+import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import axios from "axios";
 import { BorderBeam } from "@/components/ui/border-beam";
 
@@ -36,20 +37,22 @@ const Products: NextPage = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
+    // Fetch products from the API
     const fetchProducts = async () => {
       try {
         const response = await axios.get<{ data: { products: Product[] } }>(
           "https://dev.sellix.io/v1/products",
           {
             headers: {
-              Authorization: "Bearer TzuvcHcNViFZQbK9x06NYP51j8s9ONV5SKjAS1L1UXLVnv7upnQs2z8jQuKsfTOl",
+              Authorization:
+                "Bearer TzuvcHcNViFZQbK9x06NYP51j8s9ONV5SKjAS1L1UXLVnv7upnQs2z8jQuKsfTOl",
             },
           }
         );
 
         const productsWithStock = response.data.data.products.map((product) => ({
           ...product,
-          stock: Math.floor(Math.random() * 10),
+          stock: Math.floor(Math.random() * 10), // Randomize stock for demo
         }));
 
         setProducts(productsWithStock);
@@ -60,6 +63,7 @@ const Products: NextPage = () => {
 
     fetchProducts();
 
+    // Load Sellix embed script
     const script = document.createElement("script");
     script.src = "https://cdn.sellix.io/embed.js";
     script.async = true;
@@ -78,57 +82,45 @@ const Products: NextPage = () => {
   }, []);
 
   const handleAddToCart = (product: Product): void => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
+    const updatedCart = (() => {
+      const existingProduct = cart.find((item) => item.id === product.id);
       if (existingProduct) {
         if (existingProduct.quantity < product.stock) {
-          return prevCart.map((item) =>
+          return cart.map((item) =>
             item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
           );
         }
-        return prevCart;
+        return cart;
       }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+      return [...cart, { ...product, quantity: 1 }];
+    })();
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
 
     if (window.initializeSellixEmbed) {
       window.initializeSellixEmbed();
     }
-  };
-
-  const handleRemoveFromCart = (productId: number): void => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-
-    if (window.initializeSellixEmbed) {
-      window.initializeSellixEmbed();
-    }
-  };
-
-  const getCartUniqids = (): string => {
-    return cart
-      .flatMap((item) => Array(item.quantity).fill(item.uniqid))
-      .filter(Boolean) 
-      .join(",");
   };
 
   const getTotalItems = (): number => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const PaymenthHandler = () => {
-    const ids = getCartUniqids(); // Get the unique cart IDs
-    const totalpayment = `${ids}`; // Convert to string
-    console.log("TOTAL PAYMENT " + totalpayment);
-  
-    const sellixCart = document.querySelector('button[data-sellix-cart]')?.getAttribute('data-sellix-cart');
-    console.log("Sellix Cart:", sellixCart);
-  
-  };
-
-  console.log("Cart UniqIDs:", getCartUniqids());
-
   return (
     <div>
+      <header className="bg-black text-white py-4">
+        <div className="max-w-[1200px] mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Products</h1>
+          <Link 
+            href="/cart" 
+            className="text-white font-bold hover:underline"
+          >
+            View Cart ({getTotalItems()} items)
+          </Link>
+        </div>
+      </header>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 max-w-[1200px] m-auto">
         {products.map((product) => (
           <div
@@ -171,50 +163,6 @@ const Products: NextPage = () => {
             <BorderBeam />
           </div>
         ))}
-      </div>
-
-      <div className="mt-10 max-w-[1200px] m-auto text-white">
-        <h2 className="text-2xl font-bold">Cart ({getTotalItems()} items)</h2>
-        {cart.length > 0 ? (
-          <>
-            <ul className="mt-4">
-              {cart.map((item) => (
-                <li key={item.id} className="flex justify-between py-2 border-b">
-                  <span>{item.title}</span>
-                  <span>${item.price * item.quantity}</span>
-                  <button onClick={() => handleRemoveFromCart(item.id)} className="text-red-600">
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {/* not adding products in to id part */}
-
-            <button
-  onClick={PaymenthHandler}
-  type="submit"
-  className="bg-green-500 text-white rounded-xl py-2 px-6 font-semibold hover:bg-green-600 mt-6"
-  data-sellix-cart={getCartUniqids()}
->
-  Purchase Cart
-</button>
-
-{/* <p>{getCartUniqids()}</p>
-                    {/* not adding products in to id part */}
-                   
-            {/* working part */}
-            {/* <button
-  data-sellix-cart="66a0de6c1e028,66a1cbf42d1df,66a1cc51755a8"
-  type="submit"
->
-  Purchase Test
-</button> */}
-
-          </>
-        ) : (
-          <p className="mt-2">Your cart is empty.</p>
-        )}
-         
       </div>
     </div>
   );
