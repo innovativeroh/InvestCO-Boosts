@@ -56,7 +56,7 @@ const ProductDetails = () => {
         }
 
         const data = await response.json();
-        setProduct(data.data);
+        setProduct(data.data.product);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
