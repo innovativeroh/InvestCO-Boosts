@@ -26,7 +26,7 @@ type CartItem = Product & {
 
 declare global {
   interface Window {
-    Sellix: any;
+    Sellix: Record<string, unknown>;
     initializeSellixEmbed: () => void;
   }
 }
@@ -188,6 +188,7 @@ const Products: NextPage = () => {
                 </li>
               ))}
             </ul>
+            {/* not adding products in to id part */}
 
             <button
   onClick={PaymenthHandler}
@@ -195,24 +196,25 @@ const Products: NextPage = () => {
   className="bg-green-500 text-white rounded-xl py-2 px-6 font-semibold hover:bg-green-600 mt-6"
   data-sellix-cart={getCartUniqids()}
 >
-  Purchase 
+  Purchase Cart
 </button>
 
-
-{/* test part */}
 {/* <p>{getCartUniqids()}</p>
-<button
+                    {/* not adding products in to id part */}
+                   
+            {/* working part */}
+            {/* <button
   data-sellix-cart="66a0de6c1e028,66a1cbf42d1df,66a1cc51755a8"
   type="submit"
 >
   Purchase Test
 </button> */}
-{/* test part */}
 
           </>
         ) : (
           <p className="mt-2">Your cart is empty.</p>
         )}
+         
       </div>
     </div>
   );
