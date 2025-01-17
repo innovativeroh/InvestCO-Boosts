@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { BorderBeam } from "@/components/ui/border-beam";
-
+import { IoCartOutline } from "react-icons/io5";
 // Define types
 type ImageAttachment = {
   name: string;
@@ -45,7 +45,7 @@ const Products: NextPage = () => {
           {
             headers: {
               Authorization:
-                "Bearer TzuvcHcNViFZQbK9x06NYP51j8s9ONV5SKjAS1L1UXLVnv7upnQs2z8jQuKsfTOl",
+                "Bearer ZAOA8KCIJR4eyLkkHgIZFeRl7Wu1dbQaN8QVaXydZA9AlMrNJvIhfS7H5mlw4n8A",
             },
           }
         );
@@ -109,18 +109,14 @@ const Products: NextPage = () => {
 
   return (
     <div>
-      <header className="bg-black text-white py-4">
-        <div className="max-w-[1200px] mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Products</h1>
-          <Link 
-            href="/cart" 
-            className="text-white font-bold hover:underline"
-          >
-            View Cart ({getTotalItems()} items)
+        <div className="max-w-[1200px] mx-auto flex justify-between items-center mt-10">
+          <h1 className="text-2xl font-bold text-white">Products</h1>
+          <Link href="/cart">
+            <span className="text-white font-bold hover:underline flex flex-wrap gap-2 items-center">
+              <IoCartOutline size={28} /> Cart ({getTotalItems()} items)
+            </span>
           </Link>
         </div>
-      </header>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 max-w-[1200px] m-auto">
         {products.map((product) => (
           <div
