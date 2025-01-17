@@ -10,6 +10,8 @@ import Ico3 from "@/../public/ico3.png";
 import Ico4 from "@/../public/ico4.png";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
+import { FaInstagram, FaDiscord, FaYoutube } from 'react-icons/fa';
+
 const AboutPage = () => {
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -118,30 +120,59 @@ const AboutPage = () => {
             Let&quot;s elevate your Discord experience the Dukaan way!
           </p>
         </motion.section>
+
+        {/* New Social Media Buttons Section */}
+        <motion.section
+          className="mt-16 text-center"
+          initial="initial"
+          animate="animate"
+          variants={fadeIn}
+        >
+          <h2 className="text-3xl font-semibold mb-6 text-transparent bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text">Connect With Us</h2>
+          <div className="flex justify-center space-x-6">
+            {[
+              { icon: FaInstagram, url: "https://www.instagram.com/", color: "from-pink-500 to-yellow-500" },
+              { icon: FaDiscord, url: "https://discord.com/", color: "from-indigo-500 to-purple-600" },
+              { icon: FaYoutube, url: "https://www.youtube.com/", color: "from-red-600 to-red-700" }
+            ].map((item, index) => (
+              <motion.a
+                key={index}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${item.color} text-white transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <item.icon className="w-6 h-6" />
+              </motion.a>
+            ))}
+          </div>
+        </motion.section>
       </main>
       <Image
-            src={Ico as StaticImageData}
+            src={Ico as StaticImageData || "/placeholder.svg"}
             alt="Background"
             className="absolute top-[650px] opacity-100 left-[-250px] blur-md float-animation"
             width={500}
             priority={false}
           />
           <Image
-            src={Ico2 as StaticImageData}
+            src={Ico2 as StaticImageData || "/placeholder.svg"}
             alt="Background"
             className="absolute top-[100px] rotate-[40deg] opacity-100 right-[250px] blur-[4px] float-animation float-animation-delay-1"
             width={140}
             priority={false}
           />
           <Image
-            src={Ico3 as StaticImageData}
+            src={Ico3 as StaticImageData || "/placeholder.svg"}
             alt="Background"
             className="absolute top-[300px] opacity-100 right-[-280px] blur-lg float-animation float-animation-delay-2"
             width={600}
             priority={false}
           />
           <Image
-            src={Ico4 as StaticImageData}
+            src={Ico4 as StaticImageData || "/placeholder.svg"}
             alt="Background"
             className="absolute top-[150px] rotate-[25deg] opacity-100 left-[150px] blur-sm float-animation float-animation-delay-3"
             width={100}
