@@ -22,12 +22,18 @@ const Hero = () => {
           <p className="outfit-font">Cheapest Rates</p>
         </span>
       </div>
-      <div className="inline-block mt-10">
+      <div className="mt-10 flex flex-wrap gap-5">
         <Link
           href="/discord"
           className="font-semibold bg-gradient-to-r from-fuchsia-300  to-violet-500 flex items-center gap-2  py-2 px-6 text-white rounded-md text-md outfit-font shadow-xl"
         >
           Know More <ArrowRight size={15} />
+        </Link>
+        <Link
+          href="/tos"
+          className="font-semibold bg-gradient-to-r from-fuchsia-300  to-violet-500 flex items-center gap-2  py-2 px-6 text-white rounded-md text-md outfit-font shadow-xl"
+        >
+          Terms Of Service <ArrowRight size={15} />
         </Link>
       </div>
     </div>
