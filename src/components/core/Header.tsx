@@ -97,7 +97,8 @@ const Header: React.FC = () => {
           {/* Discord Button - Desktop */}
           <div className="hidden md:flex p-4 bg-zinc-950 rounded-2xl border-[1px] bg-opacity-40 blur-100 border-zinc-900 justify-center items-center">
             <Link
-              href="/discord"
+              href="https://discord.gg/dukaan2"
+              target='_blank'
               className="bg-gradient-to-r from-fuchsia-300 font-semibold to-violet-500 flex items-center justify-center gap-2  py-3 px-6 text-white rounded-xl text-sm outfit-font hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200"
             >
               Discord <BsDiscord />
@@ -154,7 +155,8 @@ const Header: React.FC = () => {
             ))}
             <div className="mt-8 pt-8 border-t border-zinc-800">
               <Link
-                href="/discord"
+              href="https://discord.gg/dukaan2"
+              target='_blank'
                 className="bg-gradient-to-r from-fuchsia-300 font-semibold to-violet-500 flex items-center justify-center gap-2  py-3 px-6 text-white rounded-xl text-sm outfit-font hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200"
                 onClick={handleLinkClick}
               >

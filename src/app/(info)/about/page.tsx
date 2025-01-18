@@ -11,6 +11,7 @@ import Ico4 from "@/../public/ico4.png";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 import { FaInstagram, FaDiscord, FaYoutube } from 'react-icons/fa';
+import { FaTelegram } from "react-icons/fa6";
 
 const AboutPage = () => {
   const fadeIn = {
@@ -156,9 +157,10 @@ const AboutPage = () => {
           <h2 className="text-3xl font-semibold mb-6 text-transparent bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text">Connect With Us</h2>
           <div className="flex justify-center space-x-6">
             {[
-              { icon: FaInstagram, url: "https://www.instagram.com/", color: "from-pink-500 to-yellow-500" },
-              { icon: FaDiscord, url: "https://discord.com/", color: "from-indigo-500 to-purple-600" },
-              { icon: FaYoutube, url: "https://www.youtube.com/", color: "from-red-600 to-red-700" }
+              { icon: FaInstagram, url: "https://www.instagram.com/dukaanservices", color: "from-fuchsia-300 to-indigo-400" },
+              { icon: FaDiscord, url: "https://discord.gg/dukaan2", color: "from-fuchsia-300 to-indigo-400" },
+              { icon: FaYoutube, url: "https://www.youtube.com/@DukaanServices", color: "from-fuchsia-300 to-indigo-400" },
+              { icon: FaTelegram, url: "https://t.me/dukaanop", color: "from-fuchsia-300 to-indigo-400" }
             ].map((item, index) => (
               <motion.a
                 key={index}
