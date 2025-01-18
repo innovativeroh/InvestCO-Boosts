@@ -87,7 +87,7 @@ const Home: NextPage = () => {
           <Header />
           <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll">
             <Hero />
-            <div className="max-w-[1200] m-auto">
+            <div className="max-w-[1200] m-auto p-5">
               <Products />
             </div>
           </div>

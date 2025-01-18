@@ -41,7 +41,7 @@ const AboutPage = () => {
                     `}</style>
       <Header />
       <BackgroundStars />
-      <div className="w-full h-[800px] z-[1] absolute overflow-y-scroll overflow-x-hidden">
+      <div className="w-full h-[800px] z-[1] absolute p-4 overflow-y-scroll overflow-x-hidden">
       <Feedbacks />
     </div>
     <Image
