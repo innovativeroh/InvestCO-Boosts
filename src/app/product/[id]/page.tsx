@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { BiCartAlt } from "react-icons/bi";
 import Loading from "@/app/loading/page";
+import { useCart } from "@/context/CartContext";
 
 interface ImageAttachment {
   cloudflare_image_id: string;
@@ -42,6 +43,7 @@ const ProductDetails = () => {
   const [error, setError] = useState<string | null>(null);
   // const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -81,25 +83,18 @@ const ProductDetails = () => {
     }
   }, []);
 
-  // const handleAddToCart = (product: Product): void => {
-  //   try {
-  //     const updatedCart = (() => {
-  //       const existingProduct = cart.find((item) => item.id === product.id);
-  //       if (existingProduct) {
-  //         return cart.map((item) =>
-  //           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-  //         );
-  //       }
-  //       return [...cart, { ...product, quantity: 1 }];
-  //     })();
-
-  //     setCart(updatedCart);
-  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //   } catch (err) {
-  //     console.error("Error updating cart:", err);
-  //     setError("Failed to add item to cart");
-  //   }
-  // };
+  const handleAddToCart = () => {
+    if (product) {
+      const cartItem = {
+        id: product.id,
+        uniqid: product.uniqid,
+        title: product.title,
+        price: product.price,
+        quantity: 1
+      };
+      addToCart(cartItem);
+    }
+  };
 
   const formatDate = (timestamp: number): string => {
     return new Date(timestamp * 1000).toLocaleDateString("en-US", {
@@ -196,11 +191,10 @@ const ProductDetails = () => {
                 </div>
               </div>
               <button
-                data-sellix-product={product.uniqid}
-                type="submit"
+                onClick={handleAddToCart}
                 className="bg-gradient-to-r flex flex-wrap gap-2 items-center justify-center from-fuchsia-300 w-full to-violet-500 text-white mt-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
               >
-                Purchase <BiCartAlt size={28} />
+                Add to Cart <BiCartAlt size={28} />
               </button>
             </CardContent>
             </div>
