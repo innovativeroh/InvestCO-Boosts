@@ -22,10 +22,13 @@ type Product = {
 };
 declare global {
   interface Window {
-    Sellix: Record<string, unknown>;
+    Sellix: {
+      load: () => void;
+    };
     initializeSellixEmbed: () => void;
   }
 }
+
 
 const Products: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);

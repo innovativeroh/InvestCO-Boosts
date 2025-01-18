@@ -13,41 +13,71 @@ import { ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 const Cart = () => {
-  const { cart, setCart } = useCart();
+  const { cart, setCart } = useCart();  
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-
+    console.log('useEffect triggered');
+  
     if (typeof window !== "undefined") {
       const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
+      console.log('Loaded cart from localStorage:', savedCart);
       setCart(savedCart);
-
-      const script = document.createElement("script");
-      script.src = "https://cdn.sellix.io/embed.js";
-      script.async = true;
-      script.onload = () => {
-        if (window.initializeSellixEmbed) {
-          window.initializeSellixEmbed();
+  
+      if (!document.querySelector('script[src="https://cdn.sellix.io/embed.js"]')) {
+        console.log('Loading Sellix script...');
+        const script = document.createElement("script");
+        script.src = "https://cdn.sellix.io/embed.js";
+        script.async = true;
+        script.onload = () => {
+          if (window.Sellix) {
+            console.log("Sellix script loaded successfully");
+            window.Sellix.load();
+          } else {
+            console.warn("Sellix object not found after script load");
+            // Retry loading after a short delay
+            setTimeout(() => {
+              if (window.Sellix) {
+                console.log("Sellix object found after delay");
+                window.Sellix.load();
+              } else {
+                console.error("Failed to load Sellix even after delay");
+              }
+            }, 1000);
+          }
+        };
+        document.body.appendChild(script);
+      } else {
+        // If script already exists, try to initialize Sellix
+        console.log('Sellix script already exists, attempting to load...');
+        if (window.Sellix) {
+          window.Sellix.load();
         }
-      };
-      document.body.appendChild(script);
-
+      }
+  
       return () => {
-        document.body.removeChild(script);
+        const existingScript = document.querySelector('script[src="https://cdn.sellix.io/embed.js"]');
+        if (existingScript) document.body.removeChild(existingScript);
       };
     }
   }, [setCart]);
 
-  const getCartUniqids = (): string =>
-    cart.flatMap((item) => Array(item.quantity).fill(item.uniqid)).join(",");
+  const getCartUniqids = (): string => {
+    const uniqids = cart.flatMap((item) => Array(item.quantity).fill(item.uniqid)).join(",");
+    console.log('Generated uniqids for cart:', uniqids);
+    return uniqids;
+  };
 
   const handleRemoveFromCart = (productId: number) => {
+    console.log('Removing product from cart:', productId);
     const updatedCart = cart.filter((item) => item.id !== productId);
+    console.log('Updated cart:', updatedCart);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
     if (window.initializeSellixEmbed) {
+      console.log('Reinitializing Sellix embed');
       window.initializeSellixEmbed();
     }
   };
@@ -55,7 +85,35 @@ const Cart = () => {
   const getTotalPrice = (): number =>
     cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  if (!isClient) return null; // Prevents server-client mismatch
+  if (!isClient) return null; 
+
+  const PaymentHandler = () => {
+    const ids = getCartUniqids();
+    console.log("Cart IDs for payment:", ids);
+    console.log("Current cart state:", cart);
+    console.log("Sellix object available:", !!window.Sellix);
+    
+    // Only proceed if Sellix is available
+    if (!window.Sellix) {
+      console.error("Sellix is not available. Attempting to reload...");
+      // Attempt to reload Sellix
+      const script = document.querySelector('script[src="https://cdn.sellix.io/embed.js"]');
+      if (script) {
+        script.remove();
+      }
+      const newScript = document.createElement("script");
+      newScript.src = "https://cdn.sellix.io/embed.js";
+      newScript.async = true;
+      newScript.onload = () => {
+        if (window.Sellix) {
+          console.log("Sellix reloaded successfully");
+          window.Sellix.load();
+        }
+      };
+      document.body.appendChild(newScript);
+      return;
+    }
+  }
 
   return (
     <>
@@ -112,11 +170,21 @@ const Cart = () => {
                   <span className="text-lg font-semibold">Total:</span>
                   <span className="text-lg font-bold text-white">${getTotalPrice().toFixed(2)}</span>
                 </div>
-                <button data-sellix-cart={getCartUniqids()} type="submit" className="text-white flex">
-                  Proceed to Checkout <ArrowRight />
+                <button 
+                data-sellix-cart={getCartUniqids()}
+                  onClick={PaymentHandler}
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors"
+                >
+                  Proceed to Checkout <ArrowRight className="ml-2" />
                 </button>
-                <button data-sellix-cart="" type="submit" className="text-white flex">
-                  Proceed to Checkout  TEST <ArrowRight />
+               
+                <button 
+                   data-sellix-cart="6787d2917fc7b,6787d39e203d2,672fe75f2935d"
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors"
+                >
+                  Proceed to Checkout  TEST <ArrowRight className="ml-2" />
                 </button>
               </CardFooter>
             )}

@@ -1,6 +1,15 @@
 "use client"
 import React, { createContext, useContext, useState } from 'react';
 
+declare global {
+  interface Window {
+    Sellix: {
+      load: () => void; // Define the load method
+      // Add other methods and properties as needed
+    };
+  }
+}
+
 type CartItem = {
   id: number;
   uniqid: string;

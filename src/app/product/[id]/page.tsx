@@ -8,12 +8,17 @@ import { useParams } from "next/navigation";
 
 import Header from "@/components/core/Header";
 import BackgroundBeams from "@/components/ui/background-beams";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { BiCartAlt } from "react-icons/bi";
 import Loading from "@/app/loading/page";
-import { useCart } from "@/context/CartContext";
+import Feedbacks from "@/components/api/Feedback";
 
 interface ImageAttachment {
   cloudflare_image_id: string;
@@ -33,44 +38,64 @@ interface Product {
   updated_at: number;
 }
 
-// interface CartItem extends Product {
-//   quantity: number;
-// }
+declare global {
+  interface Window {
+    Sellix: {
+      load: () => void;
+    };
+    initializeSellixEmbed: () => void;
+  }
+}
 
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
-  // const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { addToCart } = useCart();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      if (!id) return;
+    const script = document.createElement("script");
+    script.src = "https://cdn.sellix.io/static/js/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
 
-      try {
-        const response = await fetch(`https://dev.sellix.io/v1/products/${id}`, {
-          headers: {
-            Authorization: `Bearer ZAOA8KCIJR4eyLkkHgIZFeRl7Wu1dbQaN8QVaXydZA9AlMrNJvIhfS7H5mlw4n8A`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setProduct(data.data.product);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setIsLoading(false);
-      }
+    return () => {
+      document.body.removeChild(script);
     };
+  }, []);
 
-    fetchProduct();
-  }, [id]);
+  useEffect(
+    () => {
+      const fetchProduct = async () => {
+        if (!id) return;
+
+        try {
+          const response = await fetch(
+            `https://dev.sellix.io/v1/products/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ZAOA8KCIJR4eyLkkHgIZFeRl7Wu1dbQaN8QVaXydZA9AlMrNJvIhfS7H5mlw4n8A`
+              }
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          setProduct(data.data.product);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "An error occurred");
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchProduct();
+    },
+    [id]
+  );
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -83,24 +108,11 @@ const ProductDetails = () => {
     }
   }, []);
 
-  const handleAddToCart = () => {
-    if (product) {
-      const cartItem = {
-        id: product.id,
-        uniqid: product.uniqid,
-        title: product.title,
-        price: product.price,
-        quantity: 1
-      };
-      addToCart(cartItem);
-    }
-  };
-
   const formatDate = (timestamp: number): string => {
     return new Date(timestamp * 1000).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
-      day: "numeric",
+      day: "numeric"
     });
   };
 
@@ -118,9 +130,7 @@ const ProductDetails = () => {
   }
 
   if (isLoading || !product) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
@@ -136,28 +146,32 @@ const ProductDetails = () => {
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="bg-zinc-950/80 border-zinc-800">
             <CardHeader>
-              <CardTitle className="text-2xl text-white">{product.title}</CardTitle>
-              <CardDescription className="text-gray-400">{product.description}</CardDescription>
+              <CardTitle className="text-2xl text-white">
+                {product.title}
+              </CardTitle>
+              <CardDescription className="text-gray-400">
+                {product.description}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {product.image_attachment && (
+                {product.image_attachment &&
                   <div className="relative aspect-video">
                     <Image
-                      src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product.image_attachment.cloudflare_image_id}/public`}
+                      src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product
+                        .image_attachment.cloudflare_image_id}/public`}
                       alt={product.title}
                       className="w-full h-full rounded-lg object-cover"
                       width={400}
                       height={300}
                     />
-                  </div>
-                )}
+                  </div>}
                 <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-white">
-  {product.price !== undefined && !isNaN(product.price)
-    ? `${product.price.toFixed(2)} ${product.currency}`
-    : "Price not available"}
-</span>
+                  <span className="text-2xl font-bold text-white">
+                    {product.price !== undefined && !isNaN(product.price)
+                      ? `${product.price.toFixed(2)} ${product.currency}`
+                      : "Price not available"}
+                  </span>
                   <Badge variant="secondary" className="text-lg">
                     Stock: {product.stock === -1 ? "∞" : product.stock}
                   </Badge>
@@ -168,38 +182,52 @@ const ProductDetails = () => {
 
           <Card className="bg-transparent relative border-transparent">
             <div className="bg-gray-950/40 border-zinc-800 border-[1px] rounded-lg">
-            <CardHeader>
-              <CardTitle className="text-xl text-white">Additional Details</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4 text-gray-300">
-                <div className="flex justify-between">
-                  <span>Product ID:</span>
-                  <span className="text-purple-400">{product.uniqid}</span>
+              <CardHeader>
+                <CardTitle className="text-xl text-white">
+                  Additional Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 text-gray-300">
+                  <div className="flex justify-between">
+                    <span>Product ID:</span>
+                    <span className="text-purple-400">
+                      {product.uniqid}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Type:</span>
+                    <span className="text-purple-400">
+                      {product.type || "N/A"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Created:</span>
+                    <span className="text-purple-400">
+                      {formatDate(product.created_at)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Last Updated:</span>
+                    <span className="text-purple-400">
+                      {formatDate(product.updated_at)}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Type:</span>
-                  <span className="text-purple-400">{product.type || "N/A"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Created:</span>
-                  <span className="text-purple-400">{formatDate(product.created_at)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Last Updated:</span>
-                  <span className="text-purple-400">{formatDate(product.updated_at)}</span>
-                </div>
-              </div>
+              </CardContent>
               <button
-                onClick={handleAddToCart}
-                className="bg-gradient-to-r flex flex-wrap gap-2 items-center justify-center from-fuchsia-300 w-full to-violet-500 text-white mt-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
+                data-sellix-product={product.uniqid}
+                type="button"
+                className="bg-gradient-to-r from-fuchsia-300 w-full to-violet-500 text-white mt-4 rounded-xl py-2 font-semibold hover:bg-blue-950"
               >
-                Add to Cart <BiCartAlt size={28} />
+                Purchase
               </button>
-            </CardContent>
             </div>
           </Card>
-          
+        </div>
+
+        <div>
+          <Feedbacks />
         </div>
       </main>
     </div>
