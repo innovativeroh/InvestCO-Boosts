@@ -215,6 +215,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </CardContent>
+              <div className="p-4">
               <button
                 data-sellix-product={product.uniqid}
                 type="button"
@@ -222,6 +223,7 @@ const ProductDetails = () => {
               >
                 Purchase
               </button>
+              </div>
             </div>
           </Card>
         </div>

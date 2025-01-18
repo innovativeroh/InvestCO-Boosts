@@ -14,7 +14,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { text: "Features", shortcut: "F", href: "#features" },
-  { text: "Services", shortcut: "S", href: "#services" },
+  { text: "Feedbacks", shortcut: "F", href: "/vouches" },
   { text: "Pricing", shortcut: "P", href: "#pricing" },
   { text: "About Us", shortcut: "A", href: "/about" },
 ];

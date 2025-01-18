@@ -55,7 +55,7 @@ const AboutPage = () => {
           animate="animate"
           variants={fadeIn}
         >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-transparent bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text">
+          <h1 className="bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text text-transparent text-8xl font-bold">
             About Us
           </h1>
           <p className="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto">
@@ -86,7 +86,7 @@ const AboutPage = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.2 }}
                 >
-                  <svg className="w-6 h-6 text-purple-500 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <svg className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                   <div>
                     <h3 className="font-semibold text-xl mb-1">{item.title}</h3>
                     <p>{item.description}</p>
@@ -102,7 +102,7 @@ const AboutPage = () => {
             animate="animate"
             variants={fadeIn}
           >
-            <h2 className="text-3xl font-semibold mb-6 text-transparent bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text">Our Priorities</h2>
+            <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-fuchsia-300 to-blue-500 bg-clip-text text-transparent">Our Priorities</h2>
             <ul className="space-y-4">
               {[
                 { title: "Reliability", description: "All our services are fast, secure, and backed by a trusted reputation." },

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CiShoppingBasket } from "react-icons/ci";
 import { MdOutlineStar } from "react-icons/md";
 
 interface Feedback {
@@ -45,11 +44,6 @@ const Feedbacks = () => {
   return (
     <>
       <div id="feedbacks"></div>
-      <div className="m-auto max-w-[1200px] text-center mt-20">
-        <p className="Montserrat text-sm m-auto text-purple-500 gap-2 flex justify-center items-center">
-          <CiShoppingBasket size={20} /> What Customers Say About Us
-        </p>
-      </div>
       <div className="max-w-[1200px] mt-10 mb-10 m-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {feedbacks.map((feedback) => {
@@ -62,7 +56,7 @@ const Feedbacks = () => {
             return (
               <div
                 key={feedback.id}
-                className="bg-gradient-to-br from-purple-900 to-violet-800 p-4 rounded-xl border-[1px] border-purple-800 transition-all duration-300 hover:from-violet-600 hover:to-purple-700 hover:text-white group"
+                className="bg-zinc-900/60 text-white p-4 rounded-xl border-[1px] border-zinc-800 transition-all duration-300 hover:bg-zinc-950/80 hover:text-white group"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex-[1] flex items-center">
