@@ -5,13 +5,14 @@ import React from "react";
 import { TermsSection } from "@/components/ui/terms";
 import Ico from "@/../public/ico1.png";
 import Ico2 from "@/../public/ico2.png";
+import Shape3 from "@/../public/Shape3.png";
 import Ico3 from "@/../public/ico3.png";
 import Ico4 from "@/../public/ico4.png";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 const Page = () => {
   return (
-    <div className="w-full min-h-screen text-white overflow-hidden overflow-x-hidden">
+    <div className="w-full min-h-screen text-white relative overflow-hidden overflow-x-hidden">
       <style jsx global>{`
             @keyframes float {
               0% {
@@ -164,6 +165,13 @@ const Page = () => {
         </div>
       </div>
       <Image
+            src={Shape3 as StaticImageData}
+            alt="Background"
+            className="w-full absolute bottom-0 left-0"
+            width={1000}
+            priority
+          />
+      <Image
             src={Ico as StaticImageData}
             alt="Background"
             className="absolute top-[650px] opacity-100 left-[-250px] blur-md float-animation"
@@ -173,7 +181,7 @@ const Page = () => {
           <Image
             src={Ico2 as StaticImageData}
             alt="Background"
-            className="absolute top-[100px] rotate-[40deg] opacity-100 right-[250px] blur-[4px] float-animation float-animation-delay-1"
+            className="absolute top-[100px] opacity-100 right-[250px] blur-[4px] float-animation float-animation-delay-1"
             width={140}
             priority={false}
           />
@@ -187,7 +195,7 @@ const Page = () => {
           <Image
             src={Ico4 as StaticImageData}
             alt="Background"
-            className="absolute top-[150px] rotate-[25deg] opacity-100 left-[150px] blur-sm float-animation float-animation-delay-3"
+            className="absolute top-[150px] opacity-100 left-[150px] blur-sm float-animation float-animation-delay-3"
             width={100}
             priority={false}
           />

@@ -101,7 +101,7 @@ const Home: NextPage = () => {
           <Image
             src={Ico2 as StaticImageData}
             alt="Background"
-            className="absolute top-[250px] rotate-[40deg] opacity-100 right-[450px] blur-[4px] float-animation float-animation-delay-1"
+            className="absolute top-[250px] opacity-100 right-[450px] blur-[4px] float-animation float-animation-delay-1"
             width={140}
             priority={false}
           />
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
           <Image
             src={Ico4 as StaticImageData}
             alt="Background"
-            className="absolute top-[150px] rotate-[25deg] opacity-100 left-[150px] blur-sm float-animation float-animation-delay-3"
+            className="absolute top-[150px] opacity-100 left-[150px] blur-sm float-animation float-animation-delay-3"
             width={100}
             priority={false}
           />

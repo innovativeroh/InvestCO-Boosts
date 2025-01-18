@@ -1,6 +1,5 @@
 // app/products/[id]/page.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 // import Link from "next/link";
@@ -149,13 +148,8 @@ const ProductDetails = () => {
               <CardTitle className="text-2xl text-white">
                 {product.title}
               </CardTitle>
-              <CardDescription className="text-gray-400">
-                {product.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {product.image_attachment &&
+             
+              {product.image_attachment &&
                   <div className="relative aspect-video">
                     <Image
                       src={`https://imagedelivery.net/95QNzrEeP7RU5l5WdbyrKw/${product
@@ -166,12 +160,25 @@ const ProductDetails = () => {
                       height={300}
                     />
                   </div>}
+             <br />
+             <h1 className="text-white text-3xl font-semibold">Terms of Service</h1>
+              <CardDescription className="text-white w-full h-[200px] overflow-y-scroll">
+              <div
+    dangerouslySetInnerHTML={{
+      __html: product.description.replace(/\r\n/g, "<br />"),
+    }}
+  ></div>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-white">
+                  {/* <span className="text-2xl font-bold text-white">
                     {product.price !== undefined && !isNaN(product.price)
                       ? `${product.price.toFixed(2)} ${product.currency}`
                       : "Price not available"}
-                  </span>
+                  </span> */}
                   <Badge variant="secondary" className="text-lg">
                     Stock: {product.stock === -1 ? "∞" : product.stock}
                   </Badge>
