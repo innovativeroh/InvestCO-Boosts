@@ -5,10 +5,10 @@ import { FaCheck } from "react-icons/fa6";
 const Hero = () => {
   return (
     <div className="max-w-[1280px] m-auto p-8">
-      <h1 className="text-white font-light text-5xl leading-[80px] outfit-font tracking-[-1.7px]">
-        Your Top Choice For Discord Services <br /> <span className="text-[110px] font-[500]">Dukaan <span className="bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text text-transparent">Services</span></span>
+      <h1 className="text-white font-light text-2xl lg:text-5xl leading-[80px] outfit-font tracking-[-1.7px]">
+        Your Top Choice For Discord Services <br /> <span className="text-6xl lg:text-[110px] font-[500]">Dukaan <span className="bg-gradient-to-r from-fuchsia-300 to-indigo-400 bg-clip-text text-transparent">Services</span></span>
       </h1>
-      <div className="mt-10 flex flex-wrap gap-8">
+      <div className="mt-10 flex flex-wrap lg:flex-row flex-col gap-8">
         <span className="flex flex-wrap text-white items-center gap-2">
           <FaCheck className="text-blue-400" />{" "}
           <p className="outfit-font">5000+ Products Sold</p>

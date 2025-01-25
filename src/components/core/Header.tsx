@@ -66,7 +66,7 @@ const Header: React.FC = () => {
   return (
     <>
     <br />
-      <header className="m-auto max-w-[1280px] p-4 md:p-4 mt-4">
+      <header className="m-auto max-w-[1280px] px-4 lg:p-4 md:p-4 lg:mt-4">
         <div className="flex flex-wrap justify-between gap-4 md:gap-[60px]">
           {/* Logo */}
           <Link href="/" className="p-4 bg-zinc-950 rounded-2xl border-[1px] border-zinc-900 flex items-center bg-opacity-20 blur-50">

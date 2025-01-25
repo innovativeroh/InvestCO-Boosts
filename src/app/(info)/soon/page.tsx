@@ -12,11 +12,11 @@ const page = () => {
     <div className="w-full h-screen overflow-hidden pb-8 relative text-white outfit-font">
         <Header />
         <BackgroundStars />
-        <div className='w-full h-screen top-0 z-[-1] flex-col gap-4 absolute overflow-hidden flex items-center justify-center'>
-            <div className='text-white text-8xl font-semibold'>
+        <div className='w-full h-screen lg:p-0 p-4 top-0 z-[-1] flex-col gap-4 absolute overflow-hidden flex items-center justify-center text-center'>
+            <div className='text-white text-6xl lg:text-8xl font-semibold'>
                 Coming Soon!
             </div>
-                <p className='text-2xl'>Good things take time, and this is worth the wait.</p>
+                <p className='text-xl lg:text-2xl'>Good things take time, and this is worth the wait.</p>
         </div>
         <Image
             src={Shape3 as StaticImageData}

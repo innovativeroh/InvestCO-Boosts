@@ -8,7 +8,7 @@ interface TermsSectionProps {
 
 export const TermsSection: React.FC<TermsSectionProps> = ({ title, items, note }) => {
   return (
-    <section className="mb-8">
+    <section className="mb-8 p-5">
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
       <ul className="list-disc list-inside space-y-2">
         {items.map((item, index) => (
